@@ -1,0 +1,215 @@
+
+public String enfMasProbableTOP3(){
+    String[] sintomas = new String[50]; //vector de sintomas confirmados
+    int n = 0;  //cantidad de sintomas confirmados que registra el usuario
+    Enfermedad Enfermedad = enfermedades;
+    //variable para encontrar la probabilidad de cada enfermedad
+    float probabilidad = 0;
+    //variables para guardar los %
+    float MayorProbabilidad = 0;
+    float segundoprobable=0;
+    float tercerprobale=0;
+    //variables para guardar los nombres de las enfermedades
+    String priprobable="";
+    String segundopro="";
+    String tercerpro="";
+    //variable para juntar todo
+    String resultado="";
+
+    Nodo P = raiz;
+    int i = 0;
+    while(P!=null){//recorre el arbol para almacenar los sintomas positivos del usuario
+        if(P.getMarca()==1){//si esta positivo en el sintoma(1) lo guarda en el vector
+            sintomas[i]=P.getSintoma();
+            n++;
+            i++;
+        }
+        if(P.getHI()!=null){
+            P=P.getHI();
+        }else {
+            P = P.getHD();
+        }
+    }
+    //recorre las enfermedades para sacar la mayor probabilidad
+    while(Enfermedad!=null){
+        //enviamos enfermedad por enfermedad a que calcule su probabilidad
+        //comparando con los sintomas confirmados del arbol
+        probabilidad = calcularProbabilidad(Enfermedad.getSintomas(),Enfermedad.getValores(),sintomas,Enfermedad.getN(),n);
+        if(probabilidad>MayorProbabilidad){ //encuentra el % mas probable
+            tercerprobale=segundoprobable;
+            segundoprobable=MayorProbabilidad;
+            MayorProbabilidad = probabilidad;
+            //encontramos el nombre de la enfermedad mas probable
+            tercerpro=segundopro;
+            segundopro=priprobable;
+            priprobable=Enfermedad.getEnfermedad();
+        }else{
+            if(probabilidad>segundoprobable && probabilidad!=MayorProbabilidad){
+                tercerprobale=segundoprobable;
+                segundoprobable=probabilidad;//encuentra el 2do probable
+                //encontramos la 2da enfermedad
+                tercerpro=segundopro;
+                segundopro=Enfermedad.getEnfermedad();
+            }else{
+                if(probabilidad>tercerprobale && probabilidad!=segundoprobable && probabilidad!=MayorProbabilidad){
+                    tercerprobale=probabilidad;//encuentra el 3er probable
+
+                    tercerpro=Enfermedad.getEnfermedad();
+                }
+            }
+        }
+        Enfermedad = Enfermedad.getSiguiente();
+    }
+    resultado="La enfermedad mas probable es: "+priprobable+" con una probabilidad del "+MayorProbabilidad+" %\n" +
+            "La segunda enfermedad mas probable es: "+segundopro+" con una probabilidad del "+segundoprobable+" %\n" +
+            "La tercer enfermedad mas probable es: "+tercerpro+" con una probabilidad del "+tercerprobale+" %\n";
+    return resultado;
+}
+
+
+//metodo que devuelve los ultimos 3 probables
+public String enfMasProbableTOPult3(){
+    String[] sintomas = new String[50]; //vector de sintomas confirmados
+    int n = 0;  //cantidad de sintomas confirmados que registra el usuario
+    Enfermedad Enfermedad = enfermedades;
+    //variable para encontrar la probabilidad de cada enfermedad
+    float probabilidad = 0;
+    //variables para guardar los %
+    float ultimoprobable =100;
+    float segundoprobable=100;
+    float tercerprobale=100;
+    //variables para guardar los nombres de las enfermedades
+    String priprobable="";
+    String segundopro="";
+    String tercerpro="";
+    //variable para juntar todo
+    String resultado="";
+
+    Nodo P = raiz;
+    int i = 0;
+    while(P!=null){//recorre el arbol para almacenar los sintomas positivos del usuario
+        if(P.getMarca()==1){//si esta positivo en el sintoma(1) lo guarda en el vector
+            sintomas[i]=P.getSintoma();
+            n++;
+            i++;
+        }
+        if(P.getHI()!=null){
+            P=P.getHI();
+        }else {
+            P = P.getHD();
+        }
+    }
+    //recorre las enfermedades para sacar la mayor probabilidad
+    while(Enfermedad!=null){
+        //enviamos enfermedad por enfermedad a que calcule su probabilidad
+        //comparando con los sintomas confirmados del arbol
+        probabilidad = calcularProbabilidad(Enfermedad.getSintomas(),Enfermedad.getValores(),sintomas,Enfermedad.getN(),n);
+        if(probabilidad<ultimoprobable){ //encuentra el % mas probable
+            tercerprobale=segundoprobable;
+            segundoprobable=ultimoprobable;
+            ultimoprobable = probabilidad;
+            //encontramos el nombre de la enfermedad mas probable
+            tercerpro=segundopro;
+            segundopro=priprobable;
+            priprobable=Enfermedad.getEnfermedad();
+        }else{
+            if(probabilidad<segundoprobable && probabilidad!=ultimoprobable){
+                tercerprobale=segundoprobable;
+                segundoprobable=probabilidad;//encuentra el 2do probable
+                //encontramos la 2da enfermedad
+                tercerpro=segundopro;
+                segundopro=Enfermedad.getEnfermedad();
+            }else{
+                if(probabilidad<tercerprobale && probabilidad!=segundoprobable && probabilidad!=ultimoprobable){
+                    tercerprobale=probabilidad;//encuentra el 3er probable
+
+                    tercerpro=Enfermedad.getEnfermedad();
+                }
+            }
+        }
+        Enfermedad = Enfermedad.getSiguiente();
+    }
+    resultado="La enfermedad menos probable es: "+priprobable+" con una probabilidad del "+ultimoprobable+" %\n" +
+            "La segunda enfermedad menos probable es: "+segundopro+" con una probabilidad del "+segundoprobable+" %\n" +
+            "La tercer enfermedad menos probable es: "+tercerpro+" con una probabilidad del "+tercerprobale+" %\n";
+    return resultado;
+}
+
+//metodo que muestra todas las enfermedades con sus %
+public String todasEnfProb(){
+    String[] sintomas = new String[50]; //vector de sintomas confirmados
+    int n = 0;  //cantidad de sintomas confirmados que registra el usuario
+    Enfermedad Enfermedad = enfermedades;
+    //variable para encontrar la probabilidad de cada enfermedad
+    float probabilidad = 0;
+    //variables para guardar los %
+    float prob =0;
+    //variables para guardar los nombres de las enfermedades
+    String enfprobable="";
+    //variable para juntar todo
+    String resultado="";
+
+    Nodo P = raiz;
+    int i = 0;
+    while(P!=null){//recorre el arbol para almacenar los sintomas positivos del usuario
+        if(P.getMarca()==1){//si esta positivo en el sintoma(1) lo guarda en el vector
+            sintomas[i]=P.getSintoma();
+            n++;
+            i++;
+        }
+        if(P.getHI()!=null){
+            P=P.getHI();
+        }else {
+            P = P.getHD();
+        }
+    }
+    //recorre las enfermedades para sacar la mayor probabilidad
+    while(Enfermedad!=null){
+        //enviamos enfermedad por enfermedad a que calcule su probabilidad
+        //comparando con los sintomas confirmados del arbol
+
+        probabilidad = calcularProbabilidad(Enfermedad.getSintomas(),Enfermedad.getValores(),sintomas,Enfermedad.getN(),n);
+        enfprobable=Enfermedad.getEnfermedad();
+
+        resultado=resultado+" "+enfprobable+" / "+probabilidad+" %"+" \n";
+
+        Enfermedad = Enfermedad.getSiguiente();
+    }
+    return resultado;
+}
+
+
+//mostrar el arbol de sintomas por niveles
+public String mostrarArbolSintomas(){
+    Enfermedad Enfermedad = enfermedades;
+    String resultado="";
+
+    //recorrido del arbol
+    Nodo P = raiz;
+    int i = 1;
+    while(P!=null){
+        if(P.getMarca()==1){
+            resultado = resultado + "Nivel-" + i + ":__[" + P.getSintoma() + "]__POSITIVO" +" \n";
+            i++;
+        }else{
+            resultado = resultado + "Nivel-" + i  + ":__________[" + P.getSintoma() + "]__NEGATIVO" +" \n";
+            i++;
+        }
+        if(P.getHI()!=null){
+            P=P.getHI();
+        }else {
+            P = P.getHD();
+        }
+    }
+    return resultado;
+}
+
+//recoger informaciion en un cuadro de texto
+EditText caudro;
+        caudro=findViewById(R.id.cuadro1);
+        String s = String.valueOf(caudro.getText());
+
+-mostrar las 3 enfermedades mas probables
+-mostrar las 3 menos probables
+-mostrar todas las enfermedades con sus probabilidades
+-mostrar el arbol de sintomas del paciente

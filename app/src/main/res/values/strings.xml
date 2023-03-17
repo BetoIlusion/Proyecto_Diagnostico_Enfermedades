@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Diagnostico De Enfermedades</string>
+    <string name="msjSI">SI</string>
+    <string name="msjNO">NO</string>
+    <string name="msjReiniciar">Reiniciar Diagnostico</string>
+    <string name="msjReintentar">Reintentar</string>
+    <string name="msjSalir">Salir de la Aplicacion</string>
+    <string name="msjPregunta">TextView</string>
+</resources>
